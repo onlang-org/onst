@@ -1,0 +1,42 @@
+{
+  "name": "@onlang-org/onst",
+  "version": "0.0.1",
+  "description": "Helper repository for on-lang. Provides sample schema and example objects.",
+  "main": "index.js",
+  "bin": {
+    "onst": "index.js"
+  },
+  "scripts": {
+    "pack": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "keywords": [
+    "onlang",
+    "onlang-schema",
+    "json",
+    "onl",
+    "schema",
+    "cli",
+    "onst"
+  ],
+  "author": "Rajat Kumar <https://github.com/rajatasusual> (rajatasusual <https://github.com/rajatasusual>)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onlang-org/onst.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^20.0.2",
+    "commander": "^12.0.0",
+    "dotenv": "^16.4.5",
+    "inquirer": "^8.0.0"
+  },
+  "module": "index.js",
+  "bugs": {
+    "url": "https://github.com/onlang-org/onst/issues"
+  },
+  "homepage": "https://github.com/onlang-org/onst#readme",
+  "devDependencies": {}
+}

@@ -1,0 +1,26 @@
+{
+    "datasetId": "in amet ipsum",
+    "name": "consequat dolor deserunt",
+    "primaryKey": "dolor",
+    "createProject": true,
+    "fields": [
+      {
+        "type": "integer"
+      },
+      {
+        "name": "aliquip dolore consectetur esse fugiat",
+        "type": "integer",
+        "format": "date-time"
+      },
+      {
+        "name": "elit magna eiusmod sunt",
+        "type": "string",
+        "format": "date-time"
+      },
+      {
+        "name": "culpa minim laborum labore",
+        "type": "array",
+        "format": "date-time"
+      }
+    ]
+  }

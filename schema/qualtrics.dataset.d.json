@@ -1,0 +1,93 @@
+{
+    "title": "Dataset",
+    "type": "object",
+    "x-examples": {
+        "example": {
+            "name": "keyMetrics",
+            "primaryKey": "id",
+            "createProject": false,
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "string"
+                },
+                {
+                    "name": "region",
+                    "type": "string"
+                },
+                {
+                    "name": "age",
+                    "type": "integer"
+                },
+                {
+                    "name": "transactions",
+                    "type": "array"
+                },
+                {
+                    "name": "transactionTimeStamp",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            ]
+        }
+    },
+    "x-tags": [
+        "Schemas"
+    ],
+    "properties": {
+        "datasetId": {
+            "title": "datasetId",
+            "type": "string",
+            "description": "Unique identifier for this Imported Data Project. If you provide this value, the service uses it as the id of the Imported Data Project. If not provided, the service generates an id. The id must match this regular expression: `^[a-zA-Z0-9_]{1,32}$`. Using this id ensures idempotency when creating a DataSource."
+        },
+        "name": {
+            "title": "name",
+            "type": "string",
+            "description": "Name of the Imported Data Project."
+        },
+        "primaryKey": {
+            "title": "primaryKey",
+            "type": "string",
+            "description": "Name of the data field that uniquely identifies each record. Can be later used to identify specific records when acting upon those records with the API. For example, if each row is identified by a field called `contactId`, set the primaryKey to `contactId`. Make sure your `primaryKey` does not have duplicate values. `primaryKey` is case sensitive."
+        },
+        "createProject": {
+            "title": "createProject",
+            "type": "boolean",
+            "default": false,
+            "description": "Set this to true to create a visible project in the UI for this Imported Data Project."
+        },
+        "fields": {
+            "title": "fields",
+            "type": "array",
+            "description": "Fields in the Imported Data Project.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "type": "string",
+                        "description": "Name of the field."
+                    },
+                    "type": {
+                        "title": "type",
+                        "type": "string",
+                        "enum": [
+                            "integer",
+                            "string",
+                            "array"
+                        ],
+                        "description": "Data type of field."
+                    },
+                    "format": {
+                        "title": "format",
+                        "type": "string",
+                        "description": "Enforces formatting for your string values. If you set the format to date-time, the API will enforce that all strings for this field are in the ISO-8601 date-time format.",
+                        "enum": [
+                            "date-time"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

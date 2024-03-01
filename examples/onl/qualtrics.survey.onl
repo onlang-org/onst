@@ -1,0 +1,73 @@
+SurveyOptions:
+  BackButton: false
+  BallotBoxStuffingPrevention: true
+  Header: qui Lorem incididunt ullamco sunt
+  Footer: ut magna qui in nostrud
+  NextButton: dolore minim aliquip est
+  NoIndex: 'Yes'
+  PartialData: 'No'
+  PreviousButton: commodo Lorem amet
+  ProgressBarDisplay: Text
+  SaveAndContinue: true
+  SecureResponseFiles: 'true'
+  Skin: {}
+  SurveyProtection: ByInvitation
+  SurveyExpiration: 'on'
+  SurveyTermination: DisplayResult
+  ValidationMessage: MS_abcdefg12345
+SurveyID: SV_GgBOoOKwIbUU
+SurveyName: irure nulla ullamco dolore
+SurveyStatus: Deactive
+LastModified: '1917-07-31T16:12:11.0Z'
+BrandID: in sint do cillum
+OwnerID: UR_ZzJ7PPgCwsC
+LastAccessed: '1965-05-16T20:47:08.0Z'
+CreatorID: UR_rV8g0DKixwK
+LastActivated: '1942-04-25T04:33:38.0Z'
+Questions: {}
+Blocks: {}
+ResponseSets: {}
+SurveyFlow:
+  FlowID: FL_8251592
+  Type: EmbeddedData
+  Flow: []
+  Properties: {}
+Scoring:
+  ScoringCategories:
+  - Description: aliqua esse pariatur
+    ID: {}
+    Name: exercitation adipisicing qui
+  - Description: esse nulla irure
+    ID: {}
+    Name: ea elit commodo
+  - Description: adipisicing tempor Duis consectetur
+    ID: {}
+    Name: pariatur irure
+  ScoringCategoryGroups:
+  - Categories: []
+    ID: SCG_RtXFiEE6Vga
+    Name: do sit occaecat Ut
+  - Categories: []
+    ID: SCG_xvYnoxjHd1sBQQ7
+    Name: ea
+  - Categories: []
+    ID: SCG_4bvfEfEZDisK31
+    Name: voluptate cillum Lorem esse adipisicing
+  - Categories: []
+    ID: SCG_3HGVsl2bqwE
+    Name: do pariatur ullamco
+  - Categories: []
+    ID: SCG_tqNsqyWvUGIBzZ
+    Name: aliqua
+  ScoringSummaryCategory: SC_wlolWncLxYyag8
+  ScoringSummaryAfterQuestions: false
+  ScoringSummaryAfterSurvey: true
+  DefaultScoringCategory: SC_OCXFAZcr1Tv
+  AutoScoringCategory: dolor eiusmod
+ProjectInfo:
+  SurveyID: SV_fR7oTaCpSurduu
+  ProjectCategory: PX
+  ProjectType: HiROMhVxaQb
+  SchemaVersion: 1.1.0
+  CompositionType: consectetur
+BrandBaseURL: https://kcUUmKpKGTYj.yzemyU22B

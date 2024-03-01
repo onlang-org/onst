@@ -1,0 +1,128 @@
+{
+    "title": "SingleContact",
+    "type": "object",
+    "required": [
+        "contactId"
+    ],
+    "properties": {
+        "contactId": {
+            "$ref": "#/definitions/ContactId"
+        },
+        "firstName": {
+            "$ref": "#/definitions/FirstName"
+        },
+        "lastName": {
+            "$ref": "#/definitions/LastName"
+        },
+        "email": {
+            "$ref": "#/definitions/Email"
+        },
+        "phone": {
+            "$ref": "#/definitions/Phone"
+        },
+        "extRef": {
+            "$ref": "#/definitions/ExtRef"
+        },
+        "language": {
+            "$ref": "#/definitions/Language"
+        },
+        "directoryUnsubscribed": {
+            "$ref": "#/definitions/DirectoryUnsubscribed"
+        },
+        "directoryUnsubscribeDate": {
+            "$ref": "#/definitions/DirectoryUnsubscribeDate"
+        }
+    },
+    "x-tags": [
+        "Schemas"
+    ],
+    "definitions": {
+        "ContactId": {
+            "title": "ContactId",
+            "type": "string",
+            "example": "CID_012345678901234",
+            "default": "CID_012345678901234",
+            "x-tags": [
+                "Schemas"
+            ],
+            "description": "The contact ID."
+        },
+        "FirstName": {
+            "title": "FirstName",
+            "type": "string",
+            "nullable": true,
+            "default": "Jane",
+            "description": "The contact's first name or given name.",
+            "x-tags": [
+                "Schemas"
+            ]
+        },
+        "LastName": {
+            "title": "LastName",
+            "type": "string",
+            "nullable": true,
+            "default": "Doe",
+            "description": "The contact's last name or surname.",
+            "x-tags": [
+                "Schemas"
+            ]
+        },
+        "Email": {
+            "title": "Email",
+            "type": "string",
+            "nullable": true,
+            "default": "JaneDoe@email.com",
+            "description": "The contact's email address.",
+            "x-tags": [
+                "Schemas"
+            ]
+        },
+        "Phone": {
+            "title": "Phone",
+            "type": "string",
+            "nullable": true,
+            "default": "111-111-1111",
+            "description": "The contact's phone number.",
+            "x-tags": [
+                "Schemas"
+            ]
+        },
+        "ExtRef": {
+            "title": "ExtRef",
+            "type": "string",
+            "nullable": true,
+            "default": "my_Internal_ID_12345",
+            "description": "The External reference for the contact. You can place any string data here you need to identify the contact.",
+            "x-tags": [
+                "Schemas"
+            ]
+        },
+        "Language": {
+            "title": "Language",
+            "type": "string",
+            "nullable": true,
+            "default": "",
+            "description": "The contact's preferred language code, if set.",
+            "x-tags": [
+                "Schemas"
+            ]
+        },
+        "DirectoryUnsubscribed": {
+            "title": "DirectoryUnsubscribed",
+            "type": "boolean",
+            "x-tags": [
+                "Schemas"
+            ],
+            "description": "Indicates whether the user opted out of the directory."
+        },
+        "DirectoryUnsubscribeDate": {
+            "title": "DirectoryUnsubscribeDate",
+            "type": "string",
+            "nullable": true,
+            "x-tags": [
+                "Schemas"
+            ],
+            "description": "Date and time the user opted out of the directory. Expressed in ISO 8601 format"
+        }
+    }
+}

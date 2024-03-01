@@ -1,0 +1,137 @@
+{
+  "QuestionCount": "1",
+  "SurveyOptions": {
+      "BackButton": "false",
+      "SaveAndContinue": "true",
+      "SurveyProtection": "PublicSurvey",
+      "BallotBoxStuffingPrevention": "false",
+      "NoIndex": "Yes",
+      "SecureResponseFiles": "true",
+      "SurveyExpiration": "None",
+      "SurveyTermination": "DefaultMessage",
+      "Header": "",
+      "Footer": "",
+      "ProgressBarDisplay": "None",
+      "PartialData": "+1 week",
+      "ValidationMessage": "",
+      "PreviousButton": " ← ",
+      "NextButton": " → ",
+      "SkinLibrary": "myoungldev",
+      "SkinType": "templated",
+      "Skin": {
+          "brandingId": null,
+          "templateId": "*base",
+          "overrides": null
+      },
+      "NewScoring": 1,
+      "SurveyLanguage": "EN",
+      "ActiveResponseSet": "RS_9StC05LnuKmpcI5",
+      "SurveyStartDate": null,
+      "SurveyExpirationDate": null,
+      "SurveyCreationDate": "2018-10-29T12:14:05Z"
+  },
+  "SurveyID": "SV_0ODVm59K4i9tjcp",
+  "SurveyName": "new prooooooject",
+  "SurveyStatus": "Inactive",
+  "LastModified": "2018-10-29T12:36:12Z",
+  "BrandID": "myoungldev",
+  "OwnerID": "UR_3Cz41f8fIqINzaR",
+  "DivisionID": "DV_7WEhUEQlbizXLvf",
+  "LastAccessed": "2018-10-29T12:36:12Z",
+  "CreatorID": "UR_3Cz41f8fIqINzaR",
+  "LastActivated": "2018-10-29T12:36:12Z",
+  "Questions": {
+      "QID1": {
+          "QuestionText": "Click to write the question text",
+          "DataExportTag": "Q1",
+          "QuestionType": "MC",
+          "Selector": "SAVR",
+          "SubSelector": "TX",
+          "Configuration": {
+              "QuestionDescriptionOption": "UseText"
+          },
+          "QuestionDescription": "Click to write the question text",
+          "Choices": {
+              "1": {
+                  "Display": "Click to write Choice 1"
+              },
+              "2": {
+                  "Display": "Click to write Choice 2"
+              },
+              "3": {
+                  "Display": "Click to write Choice 3"
+              }
+          },
+          "ChoiceOrder": [
+              "1",
+              "2",
+              "3"
+          ],
+          "Validation": {
+              "Settings": {
+                  "ForceResponse": "OFF",
+                  "ForceResponseType": "ON",
+                  "Type": "None"
+              }
+          },
+          "Language": [],
+          "NextChoiceId": 4,
+          "NextAnswerId": 1,
+          "QuestionID": "QID1",
+          "QuestionText_Unsafe": "Click to write the question text"
+      }
+  },
+  "Blocks": {
+      "BL_3rC3WnIo3l3cryt": {
+          "Type": "Default",
+          "Description": "Default Question Block",
+          "ID": "BL_3rC3WnIo3l3cryt",
+          "BlockElements": [
+              {
+                  "Type": "Question",
+                  "QuestionID": "QID1"
+              }
+          ]
+      },
+      "BL_8eugjlkTG4F1zWl": {
+          "Type": "Trash",
+          "Description": "Trash / Unused Questions",
+          "ID": "BL_8eugjlkTG4F1zWl"
+      }
+  },
+  "ResponseSets": {
+      "RS_9StC05LnuKmpcI5": "Default Response Set"
+  },
+  "SurveyFlow": {
+      "Flow": [
+          {
+              "ID": "BL_3rC3WnIo3l3cryt",
+              "Type": "Block",
+              "FlowID": "FL_2"
+          }
+      ],
+      "Properties": {
+          "Count": 2
+      },
+      "FlowID": "FL_1",
+      "Type": "Root"
+  },
+  "Scoring": {
+      "ScoringCategories": [],
+      "ScoringCategoryGroups": [],
+      "ScoringSummaryCategory": "SC_cT0X8utcTBtf20R",
+      "ScoringSummaryAfterQuestions": 0,
+      "ScoringSummaryAfterSurvey": 0,
+      "DefaultScoringCategory": "SC_cT0X8utcTBtf20R",
+      "AutoScoringCategory": "SC_cT0X8utcTBtf20R"
+  },
+  "ProjectInfo": {
+      "SurveyID": "SV_0ODVm59K4i9tjcp",
+      "ProjectCategory": "CORE",
+      "ProjectType": null,
+      "CompositionType": null,
+      "ContentBundle": null,
+      "SchemaVersion": "1.1.0"
+  },
+  "BrandBaseURL": "https://myoungldev.b1-prv.qualtrics.com"
+}
