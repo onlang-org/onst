@@ -6,10 +6,10 @@ require('dotenv').config();
 const SCHEMALIST = 'schemaList.json';
 
 
-const fetchSchemata = () => {
+const fetchSchemata = async () => {
     const { owner, repo, path } = initialize();
 
-    fetchSchemaList(owner, repo, SCHEMALIST)
+    await fetchSchemaList(owner, repo, SCHEMALIST)
         .then(schemaList => promptForEntities(schemaList))
         .then(async answers => {
             const selectedEntities = answers.entities;
@@ -66,8 +66,6 @@ GITHUB_PATH=schema
 
             fs.writeFileSync(envFilePath, defaultEnvContent);
 
-            console.log('.env file created with default values.');
-            
         } else {
             // append .env file with default values
             if (!owner) {
@@ -84,6 +82,7 @@ GITHUB_PATH=schema
             }
         }
 
+        console.log('.env file created with default values.');
     }
 
     return { owner, repo, path: folder_path };
