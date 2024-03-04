@@ -1,6 +1,6 @@
 {
   "name": "@onlang-org/onst",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Helper repository for on-lang. Provides sample schema and example objects.",
   "main": "main.js",
   "bin": {

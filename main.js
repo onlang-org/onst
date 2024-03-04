@@ -59,7 +59,7 @@ function initialize() {
         if (!fs.existsSync(envFilePath)) {
             // Create .env file with default values
             const defaultEnvContent = `
-GITHUB_OWNER=rajatasusual
+GITHUB_OWNER=onlang-org
 GITHUB_REPO=onst
 GITHUB_PATH=schema
 `;
