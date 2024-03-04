@@ -1,10 +1,10 @@
 {
   "name": "@onlang-org/onst",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Helper repository for on-lang. Provides sample schema and example objects.",
-  "main": "index.js",
+  "main": "main.js",
   "bin": {
-    "onst": "index.js"
+    "onst": "cli.js"
   },
   "scripts": {
     "pack": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz"
