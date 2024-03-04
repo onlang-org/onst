@@ -1,10 +1,10 @@
-# Contributing to @onlang-org/onst-onst
+# Contributing to @onlang-org/onst
 
-Thank you for considering contributing to @onlang-org/onst-onst! Your contributions help improve the functionality and usability of this tool.
+Thank you for considering contributing to @onlang-org/onst! Your contributions help improve the functionality and usability of this tool.
 
 ## How to Contribute
 
-If you would like to contribute to @onlang-org/onst-onst, follow these steps:
+If you would like to contribute to @onlang-org/onst, follow these steps:
 
 1. Fork the repository.
 

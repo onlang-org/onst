@@ -54,13 +54,13 @@ Show help:
 onst h
 ```
 
-Fetch schema files from the onst-onst GitHub repository:
+Fetch schema files from the onst GitHub repository:
 
 ```bash
 onst f
 ```
 
-Show schema list in the onst-onst GitHub repository:
+Show schema list in the onst GitHub repository:
 
 ```bash
 onst s

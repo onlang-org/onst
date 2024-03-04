@@ -16,7 +16,7 @@ const program = new Command();
 
 program
     .version(`${pjson.version}`)
-    .description('Fetch relevant files from onst-onst GitHub repository');
+    .description('Fetch relevant files from onst GitHub repository');
 
 program
     .command('h')
@@ -30,7 +30,7 @@ program
 
 program
     .command('f')
-    .description('Fetch schema files from the onst-onst GitHub repository')
+    .description('Fetch schema files from the onst GitHub repository')
     .action(async () => {
 
         const { owner, repo, path } = initialize();
@@ -59,7 +59,7 @@ program
 
 program
     .command('s')
-    .description('Show schema list in the onst-onst GitHub repository')
+    .description('Show schema list in the onst GitHub repository')
     .action(() => {
         const { owner, repo, path } = initialize();
 
@@ -91,7 +91,7 @@ function initialize() {
             // Create .env file with default values
             const defaultEnvContent = `
 GITHUB_OWNER=rajatasusual
-GITHUB_REPO=onst-onst
+GITHUB_REPO=onst
 GITHUB_PATH=schema
 `;
 
@@ -99,7 +99,7 @@ GITHUB_PATH=schema
 
             console.log('.env file created with default values.');
 
-            return { owner: 'rajatasusual', repo: 'onst-onst', path: 'schema' };
+            return { owner: 'rajatasusual', repo: 'onst', path: 'schema' };
         }
 
     }
