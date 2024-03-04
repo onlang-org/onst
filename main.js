@@ -43,11 +43,11 @@ const showSchemata = () => {
 function initialize() {
 
     // Load environment variables
-    const owner = process.env.GITHUB_OWNER;
-    const repo = process.env.GITHUB_REPO;
-    const path = process.env.GITHUB_PATH;
+    let owner = process.env.GITHUB_OWNER;
+    let repo = process.env.GITHUB_REPO;
+    let folder_path = process.env.GITHUB_PATH;
 
-    if (!owner || !repo || !path) {
+    if (!owner || !repo || !folder_path) {
         console.error('GitHub owner, repo, or path is not specified in the .env file.');
         //create new env file
         const fs = require('fs');
@@ -67,13 +67,26 @@ GITHUB_PATH=schema
             fs.writeFileSync(envFilePath, defaultEnvContent);
 
             console.log('.env file created with default values.');
-
-            return { owner: 'rajatasusual', repo: 'onst', path: 'schema' };
+            
+        } else {
+            // append .env file with default values
+            if (!owner) {
+                owner = 'onlang-org';
+                fs.writeFileSync(envFilePath, `GITHUB_OWNER=${owner}\n`, { flag: 'a' });
+            }
+            if (!repo) {
+                repo = 'onst';
+                fs.writeFileSync(envFilePath, `GITHUB_REPO=${repo}\n`, { flag: 'a' });
+            }
+            if (!folder_path) {
+                folder_path = 'schema';
+                fs.writeFileSync(envFilePath, `GITHUB_PATH=${folder_path}\n`, { flag: 'a' });
+            }
         }
 
     }
 
-    return { owner, repo, path };
+    return { owner, repo, path: folder_path };
 }
 
 
