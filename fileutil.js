@@ -1,5 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const path = require('path');
 
 async function promptDestinationPath() {
     const answers = await inquirer.prompt([
@@ -14,23 +15,28 @@ async function promptDestinationPath() {
     return answers.destinationPath;
 }
 
-async function saveFiles(matchingFiles, destinationPath) {
+async function saveFilesFromURL(matchingFiles, destinationPath) {
     // Create destination directory if it doesn't exist
     fs.mkdirSync(destinationPath, { recursive: true });
 
     for (const file of matchingFiles) {
-        const fileName = file.name;
-        const filePath = `${destinationPath}/${fileName}`;
-        console.log(`Saving ${fileName} to ${filePath}`);
+        const decodedContent = await getFileContent(file.download_url);
+        await saveFile(decodedContent, file.name, destinationPath);
+    }
+}
 
-        try {
-            const decodedContent = await getFileContent(file.download_url);
-            fs.writeFileSync(filePath, decodedContent);
+async function saveFile(decodedContent, fileName, destinationPath) {
+    const filePath = `${destinationPath}/${fileName}`;
+    console.log(`Saving ${fileName} to ${filePath}`);
 
-            console.log(`${fileName} saved successfully.`);
-        } catch (error) {
-            console.error(`Error saving ${file}: ${error.message}`);
-        }
+    fs.mkdirSync(destinationPath, { recursive: true });
+
+    try {
+        fs.writeFileSync(path.resolve(filePath), decodedContent, { encoding: 'utf8', flag:'a+' });
+
+        console.log(`${fileName} saved successfully.`);
+    } catch (error) {
+        console.error(`Error saving ${fileName}: ${error.message}`);
     }
 }
 
@@ -50,5 +56,7 @@ async function getFileContent(download_url) {
 
 module.exports = {
     promptDestinationPath,
-    saveFiles
+    saveFilesFromURL,
+    getFileContent,
+    saveFile
 }

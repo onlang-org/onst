@@ -1,5 +1,7 @@
 const { fetchSchemaList, promptForEntities, fetchMatchingFiles } = require('./github');
-const { promptDestinationPath, saveFiles } = require('./fileutil');
+const { promptDestinationPath, saveFile, saveFilesFromURL, getFileContent } = require('./fileutil');
+const { JSONSchemaFaker } = require('json-schema-faker');
+const YAML = require('json-to-pretty-yaml');
 
 require('dotenv').config();
 
@@ -22,7 +24,7 @@ const fetchSchemata = async () => {
                 const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
                 console.log(`Files matching ${prefix}:`, matchingFiles.map(file => file.name));
 
-                await saveFiles(matchingFiles, destinationPath);
+                await saveFilesFromURL(matchingFiles, destinationPath);
             }
 
         })
@@ -37,6 +39,41 @@ const showSchemata = () => {
     fetchSchemaList(owner, repo, SCHEMALIST)
         .then(schemaList => {
             console.log(schemaList.flatMap(entity => Object.keys(entity)));
+        })
+}
+
+
+const generateExampleONL = async (save, example, fake, fileName, destination) => {
+    const { owner, repo, path } = initialize();
+
+    await fetchSchemaList(owner, repo, SCHEMALIST)
+        .then(schemaList => promptForEntities(schemaList))
+        .then(async answers => {
+            const selectedEntities = answers.entities;
+            console.log('Selected entities:', selectedEntities);
+
+            for (const prefix of selectedEntities) {
+                const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
+                promptForEntities(matchingFiles.map(file => {
+                    const name = file.name;
+                    return JSON.parse(`{ "${name.replace(/\./g, '_')}": "${file.download_url}" }`);
+                })).then(async answers => {
+                    const fileLinks = answers.entities;
+
+                    fileLinks.forEach(async fileLink => {
+                        const schema = await getFileContent(fileLink);
+
+                        const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: example ? true : false, alwaysFakeOptionals: fake ? true : false }));
+                        if (save) {
+                            const destinationPath = destination ? destination : await promptDestinationPath();
+                            await saveFile(onlExample, fileName ? fileName : fileLink.split("/").pop().replace(".d.json", ".onl"), destinationPath);
+                        }
+                        else
+                            console.log(onlExample);
+                    })
+                })
+            }
+
         })
 }
 
@@ -88,8 +125,15 @@ GITHUB_PATH=schema
     return { owner, repo, path: folder_path };
 }
 
+const FileType = {
+    SCHEMA: 'json',
+    QUALTRICS: 'onl'
+}
+
 
 module.exports = {
     fetchSchemata,
-    showSchemata
+    showSchemata,
+    generateExampleONL,
+    FileType
 }

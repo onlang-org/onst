@@ -17,6 +17,8 @@ Helper package for [on-lang](https://github.com/onlang-org/onlang). Provides sam
 
 This CLI package is designed to fetch relevant schema from @onlang-org/onst GitHub repository based on specified criteria. It leverages the GitHub [Octokit](https://github.com/octokit/octokit.js) API for repository interaction and provides a convenient command-line interface for users to customize their file-fetching experience.
 
+You can fetch schema files, show the schema list, and generate example ONL (ONLang) files from the schema.
+
 
 > **_This project lives with [on-lang](https://github.com/onlang-org/onlang)_**
 
@@ -48,29 +50,48 @@ npm install -g @onlang-org/onst
 
 ## Usage
 
-Show help:
+**Show Help**
 
-```bash
+```
 onst h
 ```
+This command shows help information about the available commands and their usage.
 
-Fetch schema files from the onst GitHub repository:
-
-```bash
-onst f
+**Show Version**
 ```
-
-Show schema list in the onst GitHub repository:
-
-```bash
-onst s
-```
-
-Show version of @onlang-org/onst package:
-
-```bash
 onst v
 ```
+This command displays the version of the ONLang CLI.
+
+**Fetch Schema Files**
+```
+onst f
+```
+This command fetches schema files from the onst GitHub repository for ONLang.
+
+**Show Schema List**
+```
+onst s
+```
+This command shows the list of schemata available in the onst GitHub repository for ONLang.
+
+**Generate Example ONL**
+```
+onst g [-s] [-f] [-e] [-n <file>] [-d <destination>]
+-s, --save: Save the generated ONL files.
+-f, --fake: Use fake values for optional properties.
+-e, --example: Use example values for required properties.
+-n, --file <path>: Specify the file name for the generated ONL file.
+-d, --destination <path>: Specify the destination path where the generated ONL will be saved.
+```
+This command generates ONL files from the schema.
+
+### Examples
+
+```
+onst g -s -f -n example.onl -d ./output
+```
+This example generates an ONL file, uses fake values for optional properties, saves the file with the name example.onl, and stores it in the ./output directory.
 
 ## Current Available Schemas
 
@@ -81,8 +102,6 @@ onst v
 
 ## Architecture
 
-### Components
-
 **GitHub Interaction**: Utilizes the GitHub API through the Octokit library for fetching repository content.
 
 **User Interaction**: Employs the Inquirer library for interactive command-line prompts.
@@ -91,17 +110,7 @@ onst v
 
 **Configuration**: Relies on environment variables for GitHub credentials and repository details.
 
-### Workflow
-
-- Fetches a schema list from the GitHub repository to enable users to select specific entities.
-- Selected entities are used to search for relevant files in the specified repository path.
-- Files matching the specified criteria are saved to the user-specified destination path.
-
-### Notes
-
-- The script fetches a schema list from the repository to enable users to select specific entities.
-- Selected entities are used to search for relevant files in the specified repository path.
-- Files matching the specified criteria are saved to the user-specified destination path.
+**Example Generation**: Generates example ONL files based on the schema and uses [json-schema-faker](https://github.com/json-schema-faker/json-schema-faker) and then transpiles it into ONL using [json-to-pretty-yaml](https://www.npmjs.com/package/json-to-pretty-yaml)
 
 ## Examples
 
