@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 require('dotenv').config();
 
 async function fetchSchemaList(owner, repo, path) {
-    const octokit = new Octokit({});
+    const octokit = process.env.GITHUB_TOKEN ? new Octokit({auth: process.env.GITHUB_TOKEN}) : new Octokit({});
 
     try {
         const response = await octokit.repos.getContent({

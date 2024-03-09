@@ -11,31 +11,33 @@ program
     .description('Work with schemata from onst GitHub repository for ONLang');
 
 program
-    .command('h')
+    .command('help')
     .description('Show help')
     .action(() => program.help());
 
 program
-    .command('v')
+    .command('version')
     .description('Show version')
     .action(() => console.log(program.version()));
 
 program
-    .command('f')
-    .description('Fetch schema files from the onst GitHub repository')
-    .action(async () => {
-        fetchSchemata();
+    .command('fetch')
+    .option('-s, --schemastore', 'save generated ONL files to the specified path')
+    .description('Fetch schema files from the onst GitHub repository or Schemastore')
+    .action(async (options) => {
+        fetchSchemata(options.schemastore);
     });
 
 program
-    .command('s')
+    .command('show')
+    .option('-s, --schemastore', 'save generated ONL files to the specified path')
     .description('Show schema list in the onst GitHub repository')
-    .action(() => {
-        showSchemata();
+    .action((options) => {
+        showSchemata(options.schemastore);
     })
 
 program
-    .command('g')
+    .command('example')
     .option('-s, --save', 'save generated ONL files to the specified path')
     .option('-f, --fake', 'use fake values for optional properties')
     .option('-e, --example', 'use example values for required properties')

@@ -8,38 +8,78 @@ require('dotenv').config();
 const SCHEMALIST = 'schemaList.json';
 
 
-const fetchSchemata = async () => {
-    const { owner, repo, path } = initialize();
+const fetchSchemata = async (schemastore) => {
 
-    await fetchSchemaList(owner, repo, SCHEMALIST)
-        .then(schemaList => promptForEntities(schemaList))
-        .then(async answers => {
-            const selectedEntities = answers.entities;
-            console.log('Selected entities:', selectedEntities);
+    const destinationPath = await promptDestinationPath();
+
+    if (schemastore) {
+        await fetchSchemaStoreSchemata()
+            .then(async result => {
+                const schemata = result.schemas.flatMap(schema => {
+                    return JSON.parse(`{ "${schema['name']}": "${schema['url']}" }`);
+                });
+
+                const answers = await promptForEntities(schemata);
+
+                console.log('Selected entities:', answers.entities);
+                const files = answers.entities.map(url => {
+                    return JSON.parse(`{ "name":"${url.split('/').pop()}", "download_url": "${url}" }`);
+                })
+                saveFilesFromURL(files, destinationPath).then(() => {
+                    console.log('Schemata downloaded successfully');
+                    process.exit(0);
+                });
+
+            })
 
 
-            const destinationPath = await promptDestinationPath();
+    } else {
 
-            for (const prefix of selectedEntities) {
-                const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
-                console.log(`Files matching ${prefix}:`, matchingFiles.map(file => file.name));
+        const { owner, repo, path } = initialize();
 
-                await saveFilesFromURL(matchingFiles, destinationPath);
-            }
+        await fetchSchemaList(owner, repo, SCHEMALIST)
+            .then(schemaList => promptForEntities(schemaList))
+            .then(async answers => {
+                const selectedEntities = answers.entities;
+                console.log('Selected entities:', selectedEntities);
 
-        })
-        .catch(error => {
-            console.error(error.message);
-        });
+                for (const prefix of selectedEntities) {
+                    const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
+                    console.log(`Files matching ${prefix}:`, matchingFiles.map(file => file.name));
+
+                    await saveFilesFromURL(matchingFiles, destinationPath);
+                }
+
+            })
+            .catch(error => {
+                console.error(error.message);
+            });
+
+    }
+
 };
 
-const showSchemata = () => {
-    const { owner, repo, path } = initialize();
+const fetchSchemaStoreSchemata = async () => {
+    const onstSchemaStore = require('@onlang-org/onst-schemastore');
+    return await onstSchemaStore.fetchSchemaFromSchemaStore();
+}
 
-    fetchSchemaList(owner, repo, SCHEMALIST)
-        .then(schemaList => {
-            console.log(schemaList.flatMap(entity => Object.keys(entity)));
-        })
+const showSchemata = async (schemastore) => {
+
+    if (schemastore) {
+        const result = await fetchSchemaStoreSchemata();
+
+        console.log(result.schemas.flatMap(entity => entity['name']));
+
+    } else {
+        const { owner, repo } = initialize();
+
+        fetchSchemaList(owner, repo, SCHEMALIST)
+            .then(schemaList => {
+                console.log(schemaList.flatMap(entity => Object.keys(entity)));
+            })
+    }
+
 }
 
 
@@ -134,6 +174,7 @@ const FileType = {
 module.exports = {
     fetchSchemata,
     showSchemata,
+    fetchSchemaStoreSchemata,
     generateExampleONL,
     FileType
 }
