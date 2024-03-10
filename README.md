@@ -6,7 +6,7 @@
 
 # @onlang-org/onst (onst)
 
-> Helper package for [on-lang](https://onlang.js.org/). Can be used standalone to fetch JSON schema from onst GitHub repository or [SchemaStore](https://www.schemastore.org).
+> fetch JSON schema from [onst GitHub repository](https://github.com/onlang-org/onst) or [SchemaStore](https://www.schemastore.org). THe package exposes helper functions and also can be installed globally to be used via its interactive CLI built using [inquirer](https://www.npmjs.com/package/inquirer)
 
 [![codeQL](https://github.com/onlang-org/onst/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/onlang-org/onst/actions/workflows/github-code-scanning/codeql)
 [![deployment](https://github.com/onlang-org/onst/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/onlang-org/onst/actions/workflows/npm-publish.yml)
@@ -15,12 +15,9 @@
 [![license](https://img.shields.io/github/license/onlang-org/onst.svg)](https://github.com/onlang-org/onst/blob/master/LICENSE.md)
 [![forks](https://img.shields.io/github/forks/onlang-org/onst.svg)](https://github.com/onlang-org/onst/network)
 
-This CLI package is designed to fetch relevant schema from @onlang-org/onst GitHub repository or [SchemaStore](https://www.schemastore.org) using [onst-schemastore](https://github.com/onlang-org/onst-schemastore). It leverages the GitHub [Octokit](https://github.com/octokit/octokit.js) API for working with schema files hosted on github.
+The package uses [onst-schemastore](https://www.npmjs.com/package/@onlang-org/onst-schemastore) to simplify fetching and categorising SchemaStore catalog into topics and download in bulk. (eg. download all schemata for AWS in one go). Read more about it [here](https://github.com/onlang-org/onst-schemastore). It leverages the GitHub [Octokit](https://github.com/octokit/octokit.js) API for working with schema files hosted on [onst github repository](https://github.com/onlang-org/onst).
 
-onst provides a convenient CLI interface designed using [inquirer](https://www.npmjs.com/package/inquirer).
-
-You can fetch schema files, show the schema list, and generate example ONL (ONLang) files from the schema.
-
+onst provides a convenient CLI interface designed using [inquirer](https://www.npmjs.com/package/inquirer). You can fetch schema files, show the schema list, and generate example ONL (ONLang) files from the schema.
 
 > **_This project lives with [on-lang](https://github.com/onlang-org/onlang)_**
 
@@ -126,7 +123,7 @@ onst by default gets the schema list from the onst GitHub repository. To fetch s
 - GITHUB_REPO: The name of the repository to fetch schema files from.
 - GITHUB_PATH: The path within the repository to fetch schema files from.
 
-## Examples
+### Examples
 
 - [JSON](/examples/json)
 - [ONL](/examples/onl)
