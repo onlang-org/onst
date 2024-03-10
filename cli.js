@@ -22,7 +22,7 @@ program
 
 program
     .command('fetch')
-    .option('-s, --schemastore', 'save generated ONL files to the specified path')
+    .option('-s, --schemastore', 'use Schemastore.org (default is false)')
     .description('Fetch schema files from the onst GitHub repository or Schemastore')
     .action(async (options) => {
         fetchSchemata(options.schemastore);
@@ -30,7 +30,7 @@ program
 
 program
     .command('show')
-    .option('-s, --schemastore', 'save generated ONL files to the specified path')
+    .option('-s, --schemastore', 'use Schemastore.org (default is false)')
     .description('Show schema list in the onst GitHub repository')
     .action((options) => {
         showSchemata(options.schemastore);
@@ -39,7 +39,7 @@ program
 program
     .command('example')
     .option('-w, --write', 'write generated ONL files to the specified path')
-    .option('-s, --schemastore', 'save generated ONL files to the specified path')
+    .option('-s, --schemastore', 'use Schemastore.org (default is false)')
     .option('-r, --random', 'use random values for optional properties')
     .option('-e, --example', 'use example values for required properties')
     .option('-f, --file <path>', 'file name of the generated ONL will be saved')
@@ -47,10 +47,10 @@ program
     .description('generate ONL from schema')
     .action((options) => {
         generateExampleONL({
-            save: options.write, 
-            fake: options.random, 
+            write: options.write, 
+            random: options.random, 
             example: options.example, 
-            fileName: options.file, 
+            file: options.file, 
             destination: options.destination,
             schemastore: options.schemastore
         });

@@ -83,14 +83,12 @@ const showSchemata = async (schemastore) => {
 }
 
 const createExamples = async (fileLinks, options) => {
-
     for (const link of fileLinks) {
         try {
             const schema = await getFileContent(link);
-            const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.fake ? true : false }));
-            if (options.save) {
-                const destinationPath = options.destination ? options.destination : await promptDestinationPath();
-                await saveFile(onlExample, options.file ? options.file : fileLink.split("/").pop().replace(".d.json", ".onl"), destinationPath);
+            const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.random ? true : false }));
+            if (options.write) {
+                await saveFile(onlExample, options.file ? options.file : link.split("/").pop().replace(".json", ".onl"), options.destination);
             }
             else
                 console.log(onlExample);
@@ -104,21 +102,26 @@ const createExamples = async (fileLinks, options) => {
 
 const generateExampleONL = async (options) => {
 
+    if (options.write && !options.destination) {
+        options['destination'] = await promptDestinationPath();
+    }
+
     if (options.schemastore) {
-        await fetchSchemaStoreSchemata()
-            .then(result => promptForEntities(result.schemas.flatMap(schema => {
-                return JSON.parse(`{ "${schema['name']}": "${schema['url']}" }`);
-            })).then(async answers => {
-                const selectedEntities = answers.entities;
-                console.log('Selected entities:', selectedEntities);
+        const storeSchemas = await fetchSchemaStoreSchemata();
 
-                const fileLinks = answers.entities;
+        const result = storeSchemas.schemas.flatMap(schema => {
+            return JSON.parse(`{ "${schema['name']}": "${schema['url']}" }`);
+        });
 
-                createExamples(fileLinks, options).then(() => {
-                    console.log('Examples created successfully');
-                    process.exit(0);
-                })
-            }))
+        await promptForEntities(result).then(async answer => {
+            const fileLinks = answer.entities;
+
+            await createExamples(fileLinks, options).then(() => {
+                console.log('Examples created successfully');
+                process.exit(0);
+            })
+        });
+
     } else {
         const { owner, repo, path } = initialize();
 
@@ -139,10 +142,9 @@ const generateExampleONL = async (options) => {
                         fileLinks.forEach(async fileLink => {
                             const schema = await getFileContent(fileLink);
 
-                            const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.fake ? true : false }));
-                            if (options.save) {
-                                const destinationPath = options.destination ? options.destination : await promptDestinationPath();
-                                await saveFile(onlExample, options.file ? options.file : fileLink.split("/").pop().replace(".d.json", ".onl"), destinationPath);
+                            const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.random ? true : false }));
+                            if (options.write) {
+                                await saveFile(onlExample, options.file ? options.file : fileLink.split("/").pop().replace(".d.json", ".onl"), options.destination);
                             }
                             else
                                 console.log(onlExample);
