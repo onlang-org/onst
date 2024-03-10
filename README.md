@@ -82,11 +82,13 @@ This command shows the list of schemata available in the onst GitHub repository 
 
 **Generate Example ONL**
 ```
-onst example [-s] [-f] [-e] [-n <file>] [-d <destination>]
--s, --save: Save the generated ONL files.
--f, --fake: Use fake values for optional properties.
+onst example [-s] [-w] [-r] [-e] [-f <file>] [-d <destination>]
+
+-s, --schemastore: Use Schemastore.org (default is false).
+-w, --write: write the generated ONL files.
+-r, --random: Use fake values for optional properties.
 -e, --example: Use example values for required properties.
--n, --file <path>: Specify the file name for the generated ONL file.
+-f, --file <path>: Specify the file name for the generated ONL file.
 -d, --destination <path>: Specify the destination path where the generated ONL will be saved.
 ```
 This command generates ONL files from the schema.
@@ -94,9 +96,9 @@ This command generates ONL files from the schema.
 ### Examples
 
 ```
-onst example -s -f -n example.onl -d ./output
+onst example -w -r -f example.onl -d ./output
 ```
-This example generates an ONL file, uses fake values for optional properties, saves the file with the name example.onl, and stores it in the ./output directory.
+This example generates an ONL file, uses random values for optional properties, writes the file with the name example.onl, and stores it in the ./output directory.
 
 ## Current Available Schemas
 

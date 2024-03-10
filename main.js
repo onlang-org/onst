@@ -59,9 +59,9 @@ const fetchSchemata = async (schemastore) => {
 
 };
 
-const fetchSchemaStoreSchemata = async () => {
+const fetchSchemaStoreSchemata = () => {
     const onstSchemaStore = require('@onlang-org/onst-schemastore');
-    return await onstSchemaStore.fetchSchemaFromSchemaStore();
+    return onstSchemaStore.fetchSchemaFromSchemaStore();
 }
 
 const showSchemata = async (schemastore) => {
@@ -82,39 +82,78 @@ const showSchemata = async (schemastore) => {
 
 }
 
+const createExamples = async (fileLinks, options) => {
 
-const generateExampleONL = async (save, example, fake, fileName, destination) => {
-    const { owner, repo, path } = initialize();
-
-    await fetchSchemaList(owner, repo, SCHEMALIST)
-        .then(schemaList => promptForEntities(schemaList))
-        .then(async answers => {
-            const selectedEntities = answers.entities;
-            console.log('Selected entities:', selectedEntities);
-
-            for (const prefix of selectedEntities) {
-                const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
-                promptForEntities(matchingFiles.map(file => {
-                    const name = file.name;
-                    return JSON.parse(`{ "${name.replace(/\./g, '_')}": "${file.download_url}" }`);
-                })).then(async answers => {
-                    const fileLinks = answers.entities;
-
-                    fileLinks.forEach(async fileLink => {
-                        const schema = await getFileContent(fileLink);
-
-                        const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: example ? true : false, alwaysFakeOptionals: fake ? true : false }));
-                        if (save) {
-                            const destinationPath = destination ? destination : await promptDestinationPath();
-                            await saveFile(onlExample, fileName ? fileName : fileLink.split("/").pop().replace(".d.json", ".onl"), destinationPath);
-                        }
-                        else
-                            console.log(onlExample);
-                    })
-                })
+    for (const link of fileLinks) {
+        try {
+            const schema = await getFileContent(link);
+            const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.fake ? true : false }));
+            if (options.save) {
+                const destinationPath = options.destination ? options.destination : await promptDestinationPath();
+                await saveFile(onlExample, options.file ? options.file : fileLink.split("/").pop().replace(".d.json", ".onl"), destinationPath);
             }
+            else
+                console.log(onlExample);
+        } catch (error) {
+            console.log(`Error creating example for ${link}`);
+            console.error(error.message);
+        }
+    }
 
-        })
+};
+
+const generateExampleONL = async (options) => {
+
+    if (options.schemastore) {
+        await fetchSchemaStoreSchemata()
+            .then(result => promptForEntities(result.schemas.flatMap(schema => {
+                return JSON.parse(`{ "${schema['name']}": "${schema['url']}" }`);
+            })).then(async answers => {
+                const selectedEntities = answers.entities;
+                console.log('Selected entities:', selectedEntities);
+
+                const fileLinks = answers.entities;
+
+                createExamples(fileLinks, options).then(() => {
+                    console.log('Examples created successfully');
+                    process.exit(0);
+                })
+            }))
+    } else {
+        const { owner, repo, path } = initialize();
+
+        await fetchSchemaList(owner, repo, SCHEMALIST)
+            .then(schemaList => promptForEntities(schemaList))
+            .then(async answers => {
+                const selectedEntities = answers.entities;
+                console.log('Selected entities:', selectedEntities);
+
+                for (const prefix of selectedEntities) {
+                    const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
+                    promptForEntities(matchingFiles.map(file => {
+                        const name = file.name;
+                        return JSON.parse(`{ "${name.replace(/\./g, '_')}": "${file.download_url}" }`);
+                    })).then(async answers => {
+                        const fileLinks = answers.entities;
+
+                        fileLinks.forEach(async fileLink => {
+                            const schema = await getFileContent(fileLink);
+
+                            const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.fake ? true : false }));
+                            if (options.save) {
+                                const destinationPath = options.destination ? options.destination : await promptDestinationPath();
+                                await saveFile(onlExample, options.file ? options.file : fileLink.split("/").pop().replace(".d.json", ".onl"), destinationPath);
+                            }
+                            else
+                                console.log(onlExample);
+                        })
+                    })
+                }
+
+            })
+    }
+
+
 }
 
 function initialize() {
@@ -167,7 +206,7 @@ GITHUB_PATH=schema
 
 const FileType = {
     SCHEMA: 'json',
-    QUALTRICS: 'onl'
+    ONLANG: 'onl'
 }
 
 
