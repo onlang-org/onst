@@ -9,7 +9,6 @@
 > fetch JSON schema from [onst GitHub repository](https://github.com/onlang-org/onst) or [SchemaStore](https://www.schemastore.org). THe package exposes helper functions and also can be installed globally to be used via its interactive CLI built using [inquirer](https://www.npmjs.com/package/inquirer)
 
 [![codeQL](https://github.com/onlang-org/onst/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/onlang-org/onst/actions/workflows/github-code-scanning/codeql)
-[![deployment](https://github.com/onlang-org/onst/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/onlang-org/onst/actions/workflows/npm-publish.yml)
 [![npm version](https://img.shields.io/npm/v/@onlang-org/onst.svg)](https://www.npmjs.com/package/@onlang-org/onst)
 [![npm downloads](https://img.shields.io/npm/dm/@onlang-org/onst.svg)](https://www.npmjs.com/package/@onlang-org/onst)
 [![license](https://img.shields.io/github/license/onlang-org/onst.svg)](https://github.com/onlang-org/onst/blob/master/LICENSE.md)
