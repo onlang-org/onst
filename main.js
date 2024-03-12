@@ -3,8 +3,6 @@ const { promptDestinationPath, saveFile, saveFilesFromURL, getFileContent } = re
 const { JSONSchemaFaker } = require('json-schema-faker');
 const YAML = require('json-to-pretty-yaml');
 
-require('dotenv').config();
-
 const SCHEMALIST = 'schemaList.json';
 
 
@@ -125,34 +123,32 @@ const generateExampleONL = async (options) => {
     } else {
         const { owner, repo, path } = initialize();
 
-        await fetchSchemaList(owner, repo, SCHEMALIST)
-            .then(schemaList => promptForEntities(schemaList))
-            .then(async answers => {
-                const selectedEntities = answers.entities;
-                console.log('Selected entities:', selectedEntities);
+        const answers = await fetchSchemaList(owner, repo, SCHEMALIST)
+            .then(schemaList => promptForEntities(schemaList));
 
-                for (const prefix of selectedEntities) {
-                    const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
-                    promptForEntities(matchingFiles.map(file => {
-                        const name = file.name;
-                        return JSON.parse(`{ "${name.replace(/\./g, '_')}": "${file.download_url}" }`);
-                    })).then(async answers => {
-                        const fileLinks = answers.entities;
+        const selectedEntities = answers.entities;
+        console.log('Selected entities:', selectedEntities);
 
-                        fileLinks.forEach(async fileLink => {
-                            const schema = await getFileContent(fileLink);
+        for (const prefix of selectedEntities) {
+            const matchingFiles = await fetchMatchingFiles(owner, repo, path, prefix);
+            await promptForEntities(matchingFiles.map(file => {
+                const name = file.name;
+                return JSON.parse(`{ "${name.replace(/\./g, '_')}": "${file.download_url}" }`);
+            })).then(async answers => {
+                const fileLinks = answers.entities;
 
-                            const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.random ? true : false }));
-                            if (options.write) {
-                                await saveFile(onlExample, options.file ? options.file : fileLink.split("/").pop().replace(".d.json", ".onl"), options.destination);
-                            }
-                            else
-                                console.log(onlExample);
-                        })
-                    })
-                }
+                fileLinks.forEach(async fileLink => {
+                    const schema = await getFileContent(fileLink);
 
+                    const onlExample = YAML.stringify(JSONSchemaFaker.generate(JSON.parse(schema), { useExampleValue: options.example ? true : false, alwaysFakeOptionals: options.random ? true : false }));
+                    if (options.write) {
+                        await saveFile(onlExample, options.file ? options.file : fileLink.split("/").pop().replace(".d.json", ".onl"), options.destination);
+                    }
+                    else
+                        console.log(onlExample);
+                })
             })
+        }
     }
 
 
@@ -161,11 +157,8 @@ const generateExampleONL = async (options) => {
 function initialize() {
 
     // Load environment variables
-    let owner = process.env.GITHUB_OWNER;
-    let repo = process.env.GITHUB_REPO;
-    let folder_path = process.env.GITHUB_PATH;
 
-    if (!owner || !repo || !folder_path) {
+    if (!process.env.GITHUB_OWNER || !process.env.GITHUB_REPO || !process.env.GITHUB_PATH) {
         console.error('GitHub owner, repo, or path is not specified in the .env file.');
         //create new env file
         const fs = require('fs');
@@ -176,39 +169,42 @@ function initialize() {
         // Check if .env file exists
         if (!fs.existsSync(envFilePath)) {
             // Create .env file with default values
-            const defaultEnvContent = `
-GITHUB_OWNER=onlang-org
-GITHUB_REPO=onst
-GITHUB_PATH=schema
-`;
+            const defaultEnvContent = `GITHUB_OWNER=${Environment.GITHUB_OWNER}
+GITHUB_REPO=${Environment.GITHUB_REPO}
+GITHUB_PATH=${Environment.GITHUB_PATH}`;
 
             fs.writeFileSync(envFilePath, defaultEnvContent);
 
         } else {
             // append .env file with default values
-            if (!owner) {
-                owner = 'onlang-org';
-                fs.writeFileSync(envFilePath, `GITHUB_OWNER=${owner}\n`, { flag: 'a' });
+            if (!process.env.GITHUB_OWNER) {
+                fs.writeFileSync(envFilePath, `\nGITHUB_OWNER=${Environment.GITHUB_OWNER}`, { flag: 'a' });
             }
-            if (!repo) {
-                repo = 'onst';
-                fs.writeFileSync(envFilePath, `GITHUB_REPO=${repo}\n`, { flag: 'a' });
+            if (!process.env.GITHUB_REPO) {
+                fs.writeFileSync(envFilePath, `\nGITHUB_REPO=${Environment.GITHUB_REPO}`, { flag: 'a' });
             }
-            if (!folder_path) {
-                folder_path = 'schema';
-                fs.writeFileSync(envFilePath, `GITHUB_PATH=${folder_path}\n`, { flag: 'a' });
+            if (!process.env.GITHUB_PATH) {
+                fs.writeFileSync(envFilePath, `\nGITHUB_PATH=${Environment.GITHUB_PATH}`, { flag: 'a' });
             }
         }
 
         console.log('.env file created with default values.');
     }
 
-    return { owner, repo, path: folder_path };
+    require('dotenv').config();
+
+    return { owner: process.env.GITHUB_OWNER, repo: process.env.GITHUB_REPO, path: process.env.GITHUB_PATH };
 }
 
 const FileType = {
     SCHEMA: 'json',
     ONLANG: 'onl'
+}
+
+const Environment = {
+    GITHUB_OWNER: 'onlang-org',
+    GITHUB_REPO: 'onst',
+    GITHUB_PATH: 'schema'
 }
 
 
@@ -217,5 +213,6 @@ module.exports = {
     showSchemata,
     fetchSchemaStoreSchemata,
     generateExampleONL,
-    FileType
+    FileType,
+    Environment
 }
