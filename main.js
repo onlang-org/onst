@@ -164,7 +164,7 @@ function initialize() {
         const fs = require('fs');
         const path = require('path');
 
-        const envFilePath = path.join(__dirname, '.env');
+        const envFilePath = path.join(process.cwd(), '.env');
 
         // Check if .env file exists
         if (!fs.existsSync(envFilePath)) {
